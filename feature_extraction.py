@@ -2,6 +2,7 @@ import pandas as pd
 import re
 import networkx as nx
 from fuzzywuzzy import process
+from nltk.corpus import stopwords
 
 
 def get_best_match(name, choices):
@@ -54,4 +55,25 @@ df["conference_main"] = (
     .map(name_mapping)
     .fillna(df["conference_main"])
     .apply(clean_conference_name)
+)
+
+df["authors_list"] = df["authors"].apply(lambda auths: auths.split(",\xa0"))
+
+all_titles = " ".join(df["title"].values.flatten()).lower().split(" ")
+all_titles_filtered = [
+    w for w in all_titles if w not in stopwords.words("english")
+]
+most_common_words = (
+    pd.Series(all_titles_filtered).value_counts(normalize=False).head(20)
+)
+
+key_word = "caus"
+does_it_include_the_word = df["title"].apply(
+    lambda title: key_word in title.lower()
+)
+most_published_within_this_word = (
+    df.loc[does_it_include_the_word, "authors_list"]
+    .explode()
+    .value_counts()
+    .head(15)
 )

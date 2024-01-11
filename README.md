@@ -8,9 +8,9 @@ The ML Research Papers Dataset project is designed to collect information about 
 
 ## TO-DO
 - [ ] Fix the CSV file (only the Parquet works for now)
-- [ ] Convert the notebook into a script
+- [x] Convert the notebook into a script
 - [x] Change authors format to a more convenient one
-- [ ] Seperate process to proper functions
+- [x] Seperate process to proper functions
 
 ## Contributing
 

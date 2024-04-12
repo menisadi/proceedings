@@ -1,7 +1,8 @@
 # utils/tables.py
 import pandas as pd
 import networkx as nx
-from nltk.corpus import stopwords 
+from nltk.corpus import stopwords
+
 
 def create_authors_publications_list(df, top_n=10):
     """
@@ -13,7 +14,7 @@ def create_authors_publications_list(df, top_n=10):
     return authors_publications.head(top_n)
 
 
-def top_authors_by_keyword(df, keyword, top_n=10):
+def top_authors_by_keyword(df, keyword):
     """
     Get the top authors based on the number of publications containing a specific keyword.
     """
@@ -27,7 +28,7 @@ def top_authors_by_keyword(df, keyword, top_n=10):
         .reset_index()
     )
     keyword_authors.columns = ["Author", "Publications"]
-    return keyword_authors.head(top_n)
+    return keyword_authors
 
 
 def most_common_keywords(df, top_n=10):
@@ -38,8 +39,7 @@ def most_common_keywords(df, top_n=10):
     all_titles_filtered = [
         w for w in all_titles if w not in stopwords.words("english")
     ]
-    most_common_words = (
-        pd.Series(all_titles_filtered)
-        .value_counts(normalize=False)
+    most_common_words = pd.Series(all_titles_filtered).value_counts(
+        normalize=False
     )
     return most_common_words.head(top_n)

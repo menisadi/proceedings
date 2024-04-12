@@ -38,19 +38,30 @@ def main(args):
 
     # Create induced dataframes and tables based on user preferences
     if args.generate_common_words:
+        # TODO: allow parameter to decide how many words to show
         common_keywords = most_common_keywords(df)
         print("\nMost Common Keywords:")
         print(common_keywords)
 
     if args.generate_authors_list:
+        # TODO: add a numeric parameter to pick how many to show
         authors_publications = create_authors_publications_list(df)
         print("\nAuthors and their Publications:")
         print(authors_publications)
+        if args.save_parquet:
+            authors_publications.to_parquet("authors.parquet")
+        if args.save_csv:
+            authors_publications.to_csv("authors.csv")
 
     if args.generate_authors_by_keyword:
         top_authors = top_authors_by_keyword(df, args.keyword)
         print(f"\nTop Authors with Publications containing '{args.keyword}':")
-        print(top_authors)
+        top_k = 10  # TODO: add this as an input argument
+        print(top_authors.head(top_k))
+        if args.save_parquet:
+            top_authors.to_parquet("top_authors.parquet")
+        if args.save_csv:
+            top_authors.to_csv("top_authors.csv")
 
 
 if __name__ == "__main__":

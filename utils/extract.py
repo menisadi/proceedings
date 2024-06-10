@@ -5,7 +5,16 @@ from bs4 import BeautifulSoup
 import pandas as pd
 
 
-def extract_paper_data(conference_url):
+def extract_paper_data(conference_url: str) -> list[dict]:
+    """
+    Extract paper data from a conference URL.
+
+    Args:
+    conference_url (str): The URL of the conference.
+
+    Returns:
+    list[dict]: A list of dictionaries containing paper information.
+    """
     response = requests.get(conference_url)
     soup = BeautifulSoup(response.text, "html.parser")
 
@@ -38,7 +47,16 @@ def extract_paper_data(conference_url):
 
 
 # Function to create a DataFrame from the extracted data
-def create_dataframe(conference_urls):
+def create_dataframe(conference_urls: list[str]) -> pd.DataFrame:
+    """
+    Create a DataFrame from a list of conference URLs.
+
+    Args:
+    conference_urls (list[str]): A list of conference URLs.
+
+    Returns:
+    pd.DataFrame: A DataFrame containing paper information.
+    """
     all_papers = []
     for conference_url in tqdm(conference_urls):
         papers = extract_paper_data(conference_url)

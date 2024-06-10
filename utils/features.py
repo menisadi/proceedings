@@ -5,11 +5,30 @@ import pandas as pd
 import networkx as nx
 
 
-def get_best_match(name, choices):
+def get_best_match(name: str, choices: list[str]) -> tuple:
+    """
+    Get the best match for a name from a list of choices.
+
+    Args:
+    name (str): The name to find a match for.
+    choices (list[str]): A list of possible matches.
+
+    Returns:
+    tuple: A tuple containing the best match and its score.
+    """
     return process.extractOne(name, choices)
 
 
-def clean_conference_name(name):
+def clean_conference_name(name: str) -> str:
+    """
+    Clean a conference name by removing unwanted characters.
+
+    Args:
+    name (str): The conference name to clean.
+
+    Returns:
+    str: The cleaned conference name.
+    """
     pattern_prefix = r".*?(\b(?!(with|health)\b)\w*th)\b.*?\s"
     name = re.sub(pattern_prefix, "", name).strip()
     name = re.sub(r"[0-9\']", "", name)
@@ -17,7 +36,16 @@ def clean_conference_name(name):
     return name
 
 
-def add_basic_features(df):
+def add_basic_features(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Add basic features to a DataFrame.
+
+    Args:
+    df (pd.DataFrame): The DataFrame to add features to.
+
+    Returns:
+    pd.DataFrame: The DataFrame with added features.
+    """
     df["volume"] = df["conference"].apply(
         lambda x: x.split(":")[0].split(" ")[1]
     )
@@ -37,7 +65,16 @@ def add_basic_features(df):
     return df
 
 
-def add_clean_conference_names(df):
+def add_clean_conference_names(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Add clean conference names to a DataFrame.
+
+    Args:
+    df (pd.DataFrame): The DataFrame to add clean conference names to.
+
+    Returns:
+    pd.DataFrame: The DataFrame with clean conference names.
+    """
     df["conference_main"] = df["conference"].apply(
         lambda x: x.split(":")[1].split(",")[0]
     )
@@ -70,7 +107,16 @@ def add_clean_conference_names(df):
     return df
 
 
-def add_features(df):
+def add_features(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Add features to a DataFrame.
+
+    Args:
+    df (pd.DataFrame): The DataFrame to add features to.
+
+    Returns:
+    pd.DataFrame: The DataFrame with added features.
+    """
     df = add_basic_features(df)
     df = add_clean_conference_names(df)
     return df

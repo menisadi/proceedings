@@ -1,1 +1,3 @@
 .aider*
+*.ipynb
+.jupytext.toml

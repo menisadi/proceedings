@@ -1,3 +1,4 @@
 .aider*
 *.ipynb
 .jupytext.toml
+.ipynb_checkpoints/
